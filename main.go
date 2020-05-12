@@ -7,9 +7,6 @@ import (
         "net"
 
         log "github.com/sirupsen/logrus"
-
-        als "bitbucket.org/blackxcloudeng/envoy-grpc/accesslogs"
-
         "google.golang.org/grpc"
         "google.golang.org/grpc/reflection"
         accesslog "github.com/envoyproxy/go-control-plane/envoy/service/accesslog/v2"
@@ -31,13 +28,13 @@ func main() {
         ctx := context.Background()
         log.Printf("Starting grpc access log server")
 
-        als := &als.AccessLogService{}
+        als := &AccessLogService{}
         RunAccessLogServer(ctx, als, alsPort)
 
 }
 
 // RunAccessLogServer starts an accesslog service.
-func RunAccessLogServer(ctx context.Context, als *als.AccessLogService, port uint) {
+func RunAccessLogServer(ctx context.Context, als *AccessLogService, port uint) {
         grpcServer := grpc.NewServer()
 
         accesslog.RegisterAccessLogServiceServer(grpcServer, als)
